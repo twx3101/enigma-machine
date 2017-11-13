@@ -1,5 +1,5 @@
 OBJ = input.o plugboard.o rotor.o reflector.o helper.o test.o
-EXE = test
+EXE = enigma
 CXX = g++
 CXXFLAGS = -std=c++11 -Wall -g
 
@@ -19,7 +19,7 @@ reflector.o : reflector.h helper.h
 
 helper.o : helper.h errors.h
 
-test.o : rotor.h reflector.h plugboard.h input.h
+test.o : rotor.h reflector.h plugboard.h input.h errors.h
 
 clean:
 	rm -f $(OBJ) $(EXE)

@@ -1,4 +1,5 @@
 #include "input.h"
+#include "errors.h"
 #include <cstring>
 #include <cstdlib>
 #include <iostream>
@@ -14,7 +15,7 @@ int Input_switch::check_input(){
       //do nothing
     }
     else if (check_valid_char(input[i]) == false){
-      return 1;
+      return INVALID_INPUT_CHARACTER;
     }
     else {
     without_ws[count] = input[i];
@@ -22,7 +23,7 @@ int Input_switch::check_input(){
     }
   }
   without_ws[count] = '\0';
-  return 0;
+  return NO_ERROR;
   }
 
 bool Input_switch::check_valid_char(char a){

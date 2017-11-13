@@ -1,5 +1,6 @@
 #include "reflector.h"
 #include "helper.h"
+#include "errors.h"
 #include <string>
 #include <iostream>
 
@@ -15,7 +16,7 @@ void Reflector::set_rotor(Rotor* a){
 int Reflector::check_reflector(){
 
   if(check_file(reflector_file)){
-    return 11;
+    return ERROR_OPENING_CONFIGURATION_FILE;
   }
   reflector_config.open(reflector_file);
   int count = 0;
@@ -25,20 +26,20 @@ int Reflector::check_reflector(){
 
     //Non-numeric character
     if (!is_digit(next)){
-      return 4;
+      return NON_NUMERIC_CHARACTER;
     }
     digit = char_to_digit(next);
 
       //Invalid index
     if(check_invalid_char(digit)){
-      return 3;
+      return INVALID_INDEX;
     }
 
     reflector_configuration[count] = digit;
 
     //no duplicates in plugboard
     if (check_duplicate(count, reflector_configuration)){
-        return 9;
+        return INVALID_REFLECTOR_MAPPING;
       }
 
     count++;
@@ -46,10 +47,10 @@ int Reflector::check_reflector(){
 
   //INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS
   if (count != 26 ) {
-    return 10;
+    return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
   }
   reflector_config.close();
-  return 0;
+  return NO_ERROR;
 }
 
 void Reflector::swap(){

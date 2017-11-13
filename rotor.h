@@ -10,10 +10,11 @@ class Reflector;
 
 class Rotor{
   public:
-    Rotor(const char* f);
+    Rotor();
+    void setup(const char* a, int number);
     void add_Rotor(Rotor* new_rotor);
     int check_config();
-    void set_offset(int config[]);
+    void set_offset(int index);
     int start_open(const char* file_start);
     void map_left(int input);
     void map_right(int input);
@@ -36,6 +37,7 @@ class Rotor{
     int current_input;
     int config_length;
     int rotor_configuration[52];
+    int start_configuration[512];
     int offset; //offset of rotor from absolute position A
     int rotor_no;
     static int no_of_rotors;

@@ -1,5 +1,6 @@
 #include "rotor.h"
 #include "helper.h"
+#include "errors.h"
 #include <string>
 #include <iostream>
 
@@ -7,23 +8,30 @@ using std::string;
 using std::endl;
 using std::cout;
 
-Rotor::Rotor(const char* f) : filename(f){
+Rotor::Rotor(){
   rotor_right = NULL;
   rotor_left = NULL;
   reflector = NULL;
-  rotor_no = no_of_rotors;
+  plugboard = NULL;
+}
+
+void Rotor::setup(const char* a, int number){
+  filename = a;
+  rotor_no = number - no_of_rotors - 1;
   no_of_rotors++;
 }
 
+
+
 void Rotor::add_Rotor(Rotor* new_rotor){
-  rotor_left = new_rotor;
-  new_rotor->rotor_right = this;
+  rotor_right = new_rotor;
+  new_rotor->rotor_left = this;
 }
 
 int Rotor::check_config(){
 
   if(check_file(filename)){
-    return 11;
+    return ERROR_OPENING_CONFIGURATION_FILE;
   }
   rotor_file.open(filename);
 
@@ -33,13 +41,13 @@ int Rotor::check_config(){
 
     //Non-numeric character
     if (!is_digit(next)){
-      return 4;
+      return NON_NUMERIC_CHARACTER;
     }
     digit = char_to_digit(next);
 
     //Invalid index
     if(check_invalid_char(digit)){
-      return 3;
+      return INVALID_INDEX;
     }
 
     rotor_configuration[config_length] = digit;
@@ -47,7 +55,7 @@ int Rotor::check_config(){
     //no duplicates in rotor
     for (int i = config_length-1; i >= 0; i--){
       if (rotor_configuration[config_length] == rotor_configuration[i] && config_length < 26){
-        return 7;
+        return INVALID_ROTOR_MAPPING;
       }
     }
 
@@ -57,16 +65,15 @@ int Rotor::check_config(){
 
   //DOES NOT MAP TO ALL CHARACTERS (need 26 rotor characters and one or more notch)
   if (config_length < 27 ) {
-    return 7;
+    return INVALID_ROTOR_MAPPING;
   }
   rotor_file.close();
-  return 0;
+  return NO_ERROR;
 
 }
 
-void Rotor::set_offset(int config[]){
-  offset = config[no_of_rotors - rotor_no - 1];
-  //set offset from left to right
+void Rotor::set_offset(int index){
+  offset = start_configuration[index];
 }
 
 void Rotor::set_pb(Plugboard* a){
@@ -85,7 +92,6 @@ int Rotor::start_open(const char* file_start){
 
   string next;
   int digit;
-  int start_configuration[512];
   int count = 0;
   while (start_position >> next){
     if (!is_digit(next)){
@@ -101,7 +107,6 @@ int Rotor::start_open(const char* file_start){
   if (count < no_of_rotors){
     return 8;
   }
-  set_offset(start_configuration);
   start_position.close();
   return 0;
 }

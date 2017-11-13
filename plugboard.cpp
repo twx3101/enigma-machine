@@ -1,4 +1,5 @@
 #include "plugboard.h"
+#include "errors.h"
 #include "helper.h"
 #include <string>
 #include <iostream>
@@ -12,7 +13,7 @@ void Plugboard::set_rotor(Rotor* a){
 
 int Plugboard::check_config(){
   if(check_file(filename)){
-    return 11;
+    return ERROR_OPENING_CONFIGURATION_FILE;
   }
 
   plugboard_config.open(filename);
@@ -24,30 +25,30 @@ int Plugboard::check_config(){
 
     //Non-numeric character
     if (!is_digit(next)){
-      return 4;
+      return NON_NUMERIC_CHARACTER;
     }
     digit = char_to_digit(next);
 
     //Invalid index
     if(check_invalid_char(digit)){
-      return 3;
+      return INVALID_INDEX;
     }
 
     configuration[config_no] = digit;
 
     //no duplicates in plugboard
     if (check_duplicate(config_no, configuration))
-      return 5;
+      return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
 
     config_no++;
   }
 
   //INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS
   if (config_no % 2 != 0 ) {
-    return 6;
+    return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
   }
   plugboard_config.close();
-  return 0;
+  return NO_ERROR;
 }
 
 void Plugboard::swap(){
