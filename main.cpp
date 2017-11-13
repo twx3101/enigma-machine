@@ -15,6 +15,7 @@
 using namespace std;
 
 int Rotor::no_of_rotors = 0;
+int Rotor::start_configuration[512];
 
 int main(int argc, char** argv){
   char input_message[512];

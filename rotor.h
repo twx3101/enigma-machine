@@ -37,9 +37,9 @@ class Rotor{
     int current_input;
     int config_length;
     int rotor_configuration[52];
-    int start_configuration[512];
     int offset; //offset of rotor from absolute position A
     int rotor_no;
+    static int start_configuration[512];
     static int no_of_rotors;
 };
 
