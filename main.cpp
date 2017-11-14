@@ -91,9 +91,10 @@ int main(int argc, char** argv){
   error_code = check_input(next);
   if (error_code > 0){
     cerr << next << error_description(error_code) << endl;
+    return error_code;
   }
   next = first_plug.swap(next);
   cout << next;
-}
+  }
   return NO_ERROR;
 }
