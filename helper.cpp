@@ -11,6 +11,10 @@ int char_to_digit(string str){
     return i;
   }
 
+int char_to_int(char character){
+  return (static_cast<int>(character - 65));
+}
+
 char digit_to_char(int index){
       return (static_cast<char>(index + 65));
     }
@@ -50,26 +54,36 @@ char digit_to_char(int index){
     return false;
   }
 
+  int check_input(char input){
+    int input_int;
+    input_int = char_to_int(input);
+    if (check_invalid_char(input_int) == true){
+      return INVALID_INPUT_CHARACTER;
+  }
+  else
+    return NO_ERROR;
+  }
+
 const char* error_description(int code){
   switch (code){
     case NO_ERROR:
       return "NO ERROR";
     case INSUFFICIENT_NUMBER_OF_PARAMETERS:
-      return "INSUFFICIENT NUMBER OF PARAMETERS ON COMMAND LINE";
+      return "usage: enigma plugboard-file reflector-file (<rotor-file>* rotor-positions)?";
     case INVALID_INPUT_CHARACTER:
-      return "INVALID CHARACTER INPUTTED";
+      return " is not a valid input character (input characters must be upper case A-Z!)";
     case INVALID_INDEX:
-      return "INVALID INDEX";
+      return "Invalid number (must be between 0 - 25) in ";
     case NON_NUMERIC_CHARACTER:
-      return "NON NUMERIC CHARACTER";
+      return "Non-numeric character ";
     case IMPOSSIBLE_PLUGBOARD_CONFIGURATION:
-      return "IMPOSSIBLE PLUGBOARD CONFIGURATION";
+      return "Impossible plugboard configuration. Attempted to map a contact to itself or more than one contact";
     case INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS:
-      return "INCORRECT NUMBER OF PLUGBOARD PARAMETERS";
+      return "Incorrect number of parameters in plugboard file ";
     case INVALID_ROTOR_MAPPING:
-      return "INVALID ROTOR MAPPING";
+      return "Invalid mapping of rotors";
     case NO_ROTOR_STARTING_POSITION:
-      return "NO ROTOR STARTNG POSITION";
+      return "No rotor starting position in rotor ";
     case INVALID_REFLECTOR_MAPPING:
       return "INVALID REFLECTOR MAPPING";
     case INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS:

@@ -11,9 +11,9 @@ class Rotor;
 class Plugboard
 {
   public:
-    Plugboard(const char* file, Input_switch* a);
+    Plugboard(const char* file);
     int check_config();
-    void swap();
+    char swap(char input);
     void final_swap();
     void set_rotor(Rotor* a);
 

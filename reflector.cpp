@@ -6,6 +6,7 @@
 
 using std::string;
 using std::endl;
+using std::cerr;
 
 Reflector::Reflector(const char* filename): reflector_file(filename){}
 
@@ -23,15 +24,21 @@ int Reflector::check_reflector(){
   int digit;
   string next;
   while(reflector_config >> next){
+    if (count > 26){
+      cerr << "Incorrect (odd) number of parameters in reflector file " << reflector_file << endl;
+      return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
+    }
 
     //Non-numeric character
     if (!is_digit(next)){
+      cerr << error_description(NON_NUMERIC_CHARACTER) << "for mapping in reflector file  " << reflector_file << endl;
       return NON_NUMERIC_CHARACTER;
     }
     digit = char_to_digit(next);
 
       //Invalid index
     if(check_invalid_char(digit)){
+      cerr << error_description(INVALID_INDEX) << "reflector file " << reflector_file << endl;
       return INVALID_INDEX;
     }
 
@@ -39,6 +46,7 @@ int Reflector::check_reflector(){
 
     //no duplicates in plugboard
     if (check_duplicate(count, reflector_configuration)){
+      cerr << "Invalid mapping of input " << count << " to output " << reflector_configuration[count] << " (output has already been mapped)" << endl;
         return INVALID_REFLECTOR_MAPPING;
       }
 
@@ -46,23 +54,32 @@ int Reflector::check_reflector(){
   }
 
   //INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS
-  if (count != 26 ) {
+
+  if (count < 26 ) {
+    if (count %2 == 0){
+      cerr << "Insufficient number of mappings in reflector_file " << reflector_file << endl;
+      return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
+    }
+    else {
+      cerr << "Incorrect (odd) number of parameters in reflector file " << reflector_file << endl;
     return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
+    }
   }
   reflector_config.close();
   return NO_ERROR;
 }
 
-void Reflector::swap(){
+void Reflector::swap(int &input){
+  int pop = input;
   for (int i = 0; i < 26; i++){
-    if (rotor_to_the_right->get_current_input() == reflector_configuration[i] && (i%2 == 0)){
-      rotor_to_the_right->set_current_output(reflector_configuration[i+1]);
+    if (pop == reflector_configuration[i] && (i%2 == 0)){
+      input = reflector_configuration[i+1];
       break;
     }
-    else if (rotor_to_the_right->get_current_input() == reflector_configuration[i] && (i%2 != 0)){
-      rotor_to_the_right->set_current_output(reflector_configuration[i-1]);
+    else if (pop == reflector_configuration[i] && (i%2 != 0)){
+      input = reflector_configuration[i-1];
       break;
     }
   }
-  rotor_to_the_right->map_right(rotor_to_the_right->get_current_input());
+  rotor_to_the_right->map_right(input);
 }

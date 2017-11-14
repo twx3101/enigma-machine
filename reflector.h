@@ -10,7 +10,7 @@ class Reflector{
     public:
       Reflector(const char* filename);
       int check_reflector();
-      void swap();
+      void swap(int& input);
       void set_rotor(Rotor* a);
 
     private:

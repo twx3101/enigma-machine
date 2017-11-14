@@ -16,8 +16,8 @@ class Rotor{
     int check_config();
     void set_offset(int index);
     int start_open(const char* file_start);
-    void map_left(int input);
-    void map_right(int input);
+    void map_left(int& input);
+    void map_right(int& input);
     int get_current_input();
     void set_current_output(int out);
     void set_pb(Plugboard* a);
