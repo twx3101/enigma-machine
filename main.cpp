@@ -14,13 +14,11 @@
 
 using namespace std;
 
-int Rotor::no_of_rotors = 0;
-int Rotor::start_configuration[512];
+
 
 int main(int argc, char** argv){
 
   int error_code;
-
 
   if (argc < 3){
     cerr << error_description(INSUFFICIENT_NUMBER_OF_PARAMETERS) << endl;
@@ -80,11 +78,11 @@ int main(int argc, char** argv){
     error_code = rotors[0].start_open(argv[argc-1]);
     if (error_code > 0){
     return error_code;
-  }
+    }
   for (unsigned int i = 0; i < rotors.size(); i++){
     rotors[i].set_offset(i);
+    }
   }
-}
 
   char next;
   while(cin >> ws >> next){
@@ -96,5 +94,5 @@ int main(int argc, char** argv){
   next = first_plug.swap(next);
   cout << next;
   }
-  return NO_ERROR;
+return 0;
 }

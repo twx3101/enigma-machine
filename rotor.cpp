@@ -8,6 +8,9 @@ using std::string;
 using std::endl;
 using std::cerr;
 
+int Rotor::no_of_rotors = 0;
+int Rotor::start_configuration[512];
+
 Rotor::Rotor(){
   rotor_right = NULL;
   rotor_left = NULL;
@@ -41,7 +44,7 @@ int Rotor::check_config(){
 
     //Non-numeric character
     if (!is_digit(next)){
-      cerr << error_description(NON_NUMERIC_CHARACTER) << "for mapping in rotor file  " << filename << endl;
+      cerr << error_description(NON_NUMERIC_CHARACTER) << "for mapping in rotor file " << filename << endl;
       return NON_NUMERIC_CHARACTER;
     }
     digit = char_to_digit(next);
@@ -57,8 +60,8 @@ int Rotor::check_config(){
     //no duplicates in rotor
     for (int i = config_length-1; i >= 0; i--){
       if (rotor_configuration[config_length] == rotor_configuration[i] && config_length < 26){
-        cerr << "Invalid mapping of input " << config_length+1 << " to output " << rotor_configuration[i];
-        cerr << " (output " << rotor_configuration << " is already mapped to from input " << i << endl;
+        cerr << "Invalid mapping of input " << config_length << " to output " << rotor_configuration[i];
+        cerr << " (output " << rotor_configuration[i] << " is already mapped to from input " << i << endl;
         return INVALID_ROTOR_MAPPING;
       }
     }
@@ -69,7 +72,7 @@ int Rotor::check_config(){
 
   //DOES NOT MAP TO ALL CHARACTERS (need 26 rotor characters and one or more notch)
   if (config_length < 26 ) {
-    cerr << "Not all inputs mapped in rotor file " << filename << endl;
+    cerr << "Not all inputs mapped in rotor file: " << filename << endl;
     return INVALID_ROTOR_MAPPING;
   }
   rotor_file.close();
@@ -112,7 +115,7 @@ int Rotor::start_open(const char* file_start){
     count++;
   }
   if (count < no_of_rotors){
-    cerr << error_description(NO_ROTOR_STARTING_POSITION) << count << "in rotor position file: " << file_start << endl;
+    cerr << error_description(NO_ROTOR_STARTING_POSITION) << count << " in rotor position file: " << file_start << endl;
     return NO_ROTOR_STARTING_POSITION;
   }
   start_position.close();
