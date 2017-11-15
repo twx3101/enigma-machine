@@ -71,7 +71,7 @@ const char* error_description(int code){
     case INSUFFICIENT_NUMBER_OF_PARAMETERS:
       return "usage: enigma plugboard-file reflector-file (<rotor-file>* rotor-positions)?";
     case INVALID_INPUT_CHARACTER:
-      return " is not a valid input character (input characters must be upper case A-Z!)";
+      return " is not a valid input character (input characters must be upper case A-Z)!";
     case INVALID_INDEX:
       return "Invalid number (must be between 0 - 25) in ";
     case NON_NUMERIC_CHARACTER:
@@ -83,7 +83,7 @@ const char* error_description(int code){
     case INVALID_ROTOR_MAPPING:
       return "Invalid mapping of rotors";
     case NO_ROTOR_STARTING_POSITION:
-      return "No rotor starting position in rotor ";
+      return "No starting position for rotor ";
     case INVALID_REFLECTOR_MAPPING:
       return "INVALID REFLECTOR MAPPING";
     case INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS:

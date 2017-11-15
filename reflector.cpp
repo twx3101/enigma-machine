@@ -27,7 +27,7 @@ int Reflector::check_reflector(){
   string next;
   while(reflector_config >> next){
     if (count+1 > 26){
-      cerr << "Incorrect (odd) number of parameters in reflector file: " << reflector_file << endl;
+      cerr << "Incorrect (odd) number of parameters in reflector file " << reflector_file << endl;
       return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
     }
 

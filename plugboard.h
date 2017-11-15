@@ -2,7 +2,7 @@
 #define PLUGBOARD_H
 
 
-#include "input.h"
+
 #include "rotor.h"
 #include "reflector.h"
 #include <fstream>
@@ -23,7 +23,6 @@ class Plugboard
   private:
     std::ifstream plugboard_config;
     const char* filename;
-    Input_switch* input;
     Reflector* reflector;
     Rotor* first_rotor;
     int configuration[26];

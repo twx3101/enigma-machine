@@ -61,7 +61,7 @@ int Rotor::check_config(){
     for (int i = config_length-1; i >= 0; i--){
       if (rotor_configuration[config_length] == rotor_configuration[i] && config_length < 26){
         cerr << "Invalid mapping of input " << config_length << " to output " << rotor_configuration[i];
-        cerr << " (output " << rotor_configuration[i] << " is already mapped to from input " << i  << ")"<< endl;
+        cerr << " (output " << rotor_configuration[i] << " is already mapped to from input " << i  << ") "<< endl;
         return INVALID_ROTOR_MAPPING;
       }
     }

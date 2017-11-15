@@ -1,5 +1,4 @@
 #include "helper.h"
-#include "input.h"
 #include "reflector.h"
 #include "rotor.h"
 #include "reflector.h"
