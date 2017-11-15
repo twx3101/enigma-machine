@@ -8,7 +8,9 @@ using std::string;
 using std::endl;
 using std::cerr;
 
-Reflector::Reflector(const char* filename): reflector_file(filename){}
+Reflector::Reflector(const char* filename): reflector_file(filename){
+  rotor_to_the_right = NULL;
+}
 
 void Reflector::set_rotor(Rotor* a){
   rotor_to_the_right = a;
@@ -24,11 +26,14 @@ int Reflector::check_reflector(){
   int digit;
   string next;
   while(reflector_config >> next){
-
+    if (count+1 > 26){
+      cerr << "Incorrect (odd) number of parameters in reflector file: " << reflector_file << endl;
+      return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
+    }
 
     //Non-numeric character
     if (!is_digit(next)){
-      cerr << error_description(NON_NUMERIC_CHARACTER) << "for mapping in reflector file " << reflector_file << endl;
+      cerr << error_description(NON_NUMERIC_CHARACTER) << "in reflector file " << reflector_file << endl;
       return NON_NUMERIC_CHARACTER;
     }
     digit = char_to_digit(next);
@@ -48,21 +53,18 @@ int Reflector::check_reflector(){
       }
 
     count++;
-    if (count > 26){
-      cerr << "Incorrect (odd) number of parameters in reflector file " << reflector_file << endl;
-      return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
-    }
+
   }
 
   //INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS
 
   if (count < 26 ) {
     if (count %2 == 0){
-      cerr << "Insufficient number of mappings in reflector_file: " << reflector_file << endl;
+      cerr << "Insufficient number of mappings in reflector file: " << reflector_file << endl;
       return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
     }
     else {
-      cerr << "Incorrect (odd) number of parameters in reflector file: " << reflector_file << endl;
+      cerr << "Incorrect (odd) number of parameters in reflector file " << reflector_file << endl;
     return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
     }
   }
@@ -82,5 +84,9 @@ void Reflector::swap(int &input){
       break;
     }
   }
-  rotor_to_the_right->map_right(input);
+  if (rotor_to_the_right != NULL){
+    rotor_to_the_right->map_right(input);
+  }
+  else
+    return;
 }

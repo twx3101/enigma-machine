@@ -14,8 +14,6 @@
 
 using namespace std;
 
-
-
 int main(int argc, char** argv){
 
   int error_code;
@@ -25,19 +23,8 @@ int main(int argc, char** argv){
     return INSUFFICIENT_NUMBER_OF_PARAMETERS;
   }
 
-  //length = strlen(input_message);
-  //Input_switch keys(input_message, length);
-
-//  error_code = keys.check_input();
-//  if (error_code > 0){
-//    cerr << error_description(error_code) << endl;
-//    return error_code;
-//  }
-
-//  keys.convert_to_int();
-
   Plugboard first_plug(argv[1]);
-    //first_plug.get_config();
+
   error_code = first_plug.check_config();
 
   if(error_code > 0){
@@ -77,13 +64,26 @@ int main(int argc, char** argv){
   if (rotors.size() > 0){
     error_code = rotors[0].start_open(argv[argc-1]);
     if (error_code > 0){
-    return error_code;
+      return error_code;
     }
   for (unsigned int i = 0; i < rotors.size(); i++){
     rotors[i].set_offset(i);
     }
   }
-
+  if (argc == 3 || argc == 4){
+    first_plug.set_rf(&first_reflector);
+    char next;
+    while(cin >> ws >> next){
+    error_code = check_input(next);
+    if (error_code > 0){
+      cerr << next << error_description(error_code) << endl;
+      return error_code;
+    }
+    next = first_plug.swap_without_rotor(next);
+    cout << next;
+    }
+  }
+  else {
   char next;
   while(cin >> ws >> next){
   error_code = check_input(next);
@@ -94,5 +94,6 @@ int main(int argc, char** argv){
   next = first_plug.swap(next);
   cout << next;
   }
+}
 return 0;
 }

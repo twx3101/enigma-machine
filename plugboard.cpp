@@ -11,6 +11,10 @@ void Plugboard::set_rotor(Rotor* a){
   first_rotor = a;
 }
 
+void Plugboard::set_rf(Reflector* a){
+  reflector = a;
+}
+
 int Plugboard::check_config(){
   if(check_file(filename)){
     return ERROR_OPENING_CONFIGURATION_FILE;
@@ -22,7 +26,7 @@ int Plugboard::check_config(){
   int digit;
   string next;
   while(plugboard_config >> next){
-    if (config_no > 26){
+    if (config_no+1 > 26){
       cerr << error_description(INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS) << filename << endl;
       return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
     }
@@ -47,6 +51,7 @@ int Plugboard::check_config(){
       return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
     }
     config_no++;
+
   }
 
   //INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS
@@ -76,11 +81,11 @@ char Plugboard::swap(char input){
   int to_rotor;
   to_rotor = static_cast<int>(input - 65);
   for (int i = 0; i < config_no; i++){
-    if (input == configuration[i] && (i%2 == 0)){
-        input = configuration[i+1];
+    if (to_rotor == configuration[i] && (i%2 == 0)){
+        to_rotor = configuration[i+1];
         break;
-    } else if (input == configuration[i] && (!i%2 == 0)){
-        input = configuration[i-1];
+    } else if (to_rotor == configuration[i] && (!i%2 == 0)){
+        to_rotor = configuration[i-1];
         break;
       }
     }
@@ -105,17 +110,29 @@ char Plugboard::swap(char input){
   }
 }*/
 
-void Plugboard::final_swap(){
-  output_out = first_rotor->get_current_input();
+char Plugboard::swap_without_rotor(char input){
+  int to_rotor;
+  to_rotor = static_cast<int>(input - 65);
+  for (int i = 0; i < config_no; i++){
+    if (to_rotor == configuration[i] && (i%2 == 0)){
+        to_rotor = configuration[i+1];
+        break;
+    } else if (to_rotor == configuration[i] && (!i%2 == 0)){
+        to_rotor = configuration[i-1];
+        break;
+      }
+    }
+    reflector->swap(to_rotor);
+
     for (int i = 0; i < config_no; i++){
-        if (output_out == configuration[i]  && (i%2 == 0) ){
-          output_out = (configuration[i+1]);
+      if (to_rotor == configuration[i] && (i%2 == 0)){
+          to_rotor = configuration[i+1];
           break;
-        }
-        else if (output_out == configuration[i]  && (i%2 != 0)){
-          output_out = (configuration[i-1]);
+      } else if (to_rotor == configuration[i] && (!i%2 == 0)){
+          to_rotor = configuration[i-1];
           break;
         }
       }
-    cout << digit_to_char(output_out);
+      input = static_cast<char>(to_rotor + 65);
+      return input;
 }
