@@ -57,7 +57,7 @@ int Rotor::check_config(){
 
     //Non-numeric character
     if (!is_digit(next)){
-      cerr << error_description(NON_NUMERIC_CHARACTER) << "for mapping in rotorfile "
+      cerr << error_description(NON_NUMERIC_CHARACTER) << "for mapping in rotor file "
       << filename << endl;
       return NON_NUMERIC_CHARACTER;
     }
