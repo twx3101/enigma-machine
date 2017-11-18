@@ -69,7 +69,7 @@ const char* error_description(int code){
     case INVALID_INPUT_CHARACTER:
       return " is not a valid input character (input characters must be upper case letters A-Z)!";
     case INVALID_INDEX:
-      return " Invalid number (must be between 0 - 25) in ";
+      return "Invalid number (must be between 0 - 25) in ";
     case NON_NUMERIC_CHARACTER:
       return "Non-numeric character ";
     case IMPOSSIBLE_PLUGBOARD_CONFIGURATION:

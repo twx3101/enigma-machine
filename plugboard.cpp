@@ -40,14 +40,14 @@ int Plugboard::check_config(){
     }
     //Non-numeric character
     if (!is_digit(next)){
-      cerr << error_description(NON_NUMERIC_CHARACTER) <<  next << " in plugboard file " << pb_file << endl;
+      cerr << error_description(NON_NUMERIC_CHARACTER) << "in plugboard file " << pb_file << endl;
       return NON_NUMERIC_CHARACTER;
     }
     digit = str_to_digit(next);
 
     //Invalid index
     if(check_invalid_char(digit)){
-      cerr <<  digit << error_description(INVALID_INDEX) << "in plugboard file " << pb_file << endl;
+      cerr << error_description(INVALID_INDEX) << "in plugboard file " << pb_file << endl;
       return INVALID_INDEX;
     }
 

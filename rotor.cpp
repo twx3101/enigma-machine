@@ -57,7 +57,7 @@ int Rotor::check_config(){
 
     //Non-numeric character
     if (!is_digit(next)){
-      cerr << error_description(NON_NUMERIC_CHARACTER) << next << " for mapping in rotorfile "
+      cerr << error_description(NON_NUMERIC_CHARACTER) << "for mapping in rotorfile "
       << filename << endl;
       return NON_NUMERIC_CHARACTER;
     }
@@ -65,7 +65,7 @@ int Rotor::check_config(){
 
     //Invalid index
     if(check_invalid_char(digit)){
-      cerr << digit << error_description(INVALID_INDEX) << "rotor file " << filename << endl;
+      cerr << error_description(INVALID_INDEX) << "rotor file " << filename << endl;
       return INVALID_INDEX;
     }
 
@@ -115,7 +115,7 @@ int Rotor::check_start_positions(const char* file_start){
 
     //check NON_NUMERIC_CHARACTER
     if (!is_digit(next)){
-      cerr << error_description(NON_NUMERIC_CHARACTER) << next << " in rotor positions file " << file_start << endl;
+      cerr << error_description(NON_NUMERIC_CHARACTER) << "in rotor positions file " << file_start << endl;
       return NON_NUMERIC_CHARACTER;
     }
 
@@ -123,7 +123,7 @@ int Rotor::check_start_positions(const char* file_start){
 
     //check invalid index
     if(check_invalid_char(digit)){
-      cerr << digit << error_description(INVALID_INDEX) << "in rotor positions file "
+      cerr << error_description(INVALID_INDEX) << "in rotor positions file "
       << file_start << endl;
       return INVALID_INDEX;
     }
