@@ -4,11 +4,6 @@
 #include "reflector.h"
 #include "errors.h"
 #include <iostream>
-#include <fstream>
-#include <cstring>
-#include <string>
-#include <cstdlib>
-#include <cctype>
 #include <vector>
 
 using namespace std;
@@ -37,12 +32,12 @@ int main(int argc, char** argv){
   }
 
   vector<Rotor> rotors;
+
   if (argc > 4){
     rotors.resize(argc - 4);
     for (int i = 0; i < argc - 4; i++){
       rotors[i].setup(argv[i+3], argc-4);
       error_code = rotors[i].check_config();
-
       if (error_code > 0){
         return error_code;
       }
@@ -61,7 +56,7 @@ int main(int argc, char** argv){
   }
 
   if (rotors.size() > 0){
-    error_code = rotors[0].start_open(argv[argc-1]);
+    error_code = rotors[0].check_start_positions(argv[argc-1]);
     if (error_code > 0){
       return error_code;
     }
@@ -69,30 +64,34 @@ int main(int argc, char** argv){
     rotors[i].set_offset(i);
     }
   }
+
+//if no rotor connected
   if (argc == 3 || argc == 4){
     first_plug.set_rf(&first_reflector);
     char next;
     while(cin >> ws >> next){
-    error_code = check_input(next);
-    if (error_code > 0){
-      cerr << next << error_description(error_code) << endl;
-      return error_code;
-    }
-    next = first_plug.swap_without_rotor(next);
-    cout << next;
+      error_code = check_input(next);
+      if (error_code > 0){
+        cerr << next << error_description(error_code) << endl;
+        return error_code;
+      }
+      next = first_plug.swap_without_rotor(next);
+      cout << next;
     }
   }
+  //if at least one rotor is connected
   else {
   char next;
-  while(cin >> ws >> next){
-  error_code = check_input(next);
-  if (error_code > 0){
-    cerr << next << error_description(error_code) << endl;
-    return error_code;
+    while(cin >> ws >> next) {
+      error_code = check_input(next);
+      if (error_code > 0){
+        cerr << next << error_description(error_code) << endl;
+        return error_code;
+      }
+      next = first_plug.swap(next);
+      cout << next;
+    }
   }
-  next = first_plug.swap(next);
-  cout << next;
-  }
-}
+
 return 0;
 }
